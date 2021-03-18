@@ -58,21 +58,26 @@ public class Main {
         
     }
 
-    private static void completeTask(String taskNumber) {
-        int validNumber = validateNumber(taskNumber);
-        if (tasks.get(validNumber).contains("(Completed)")) {
-            System.out.println("Task has already been marked as completed!");
-            return ;
+    private static void completeTask(String index) {
+        int validNumber = validateNumber(index);
+        
+        try {
+            if (tasks.get(validNumber).contains("(Completed)")) {
+                System.out.println("Task has already been marked as completed!");
+                return ;
+            }
+            String completed = tasks.get(validNumber) + " (Completed)";
+            tasks.set(validNumber, completed);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Not a valid task index.");
         }
-
-        String completed = tasks.get(validNumber) + " (Completed)";
-        tasks.set(validNumber, completed);
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         int temp_option = -1;
 
         loop: while(true) {
+            
             menu();
             try {
                 temp_option = Integer.parseInt(in.nextLine());
@@ -89,7 +94,7 @@ public class Main {
                 
                 case 2:
                     if (tasks.isEmpty()) {
-                        System.out.println("There are no tasks to delete!");
+                        System.out.println("There are no tasks left to delete!");
                         break;
                     } 
                     System.out.print("Enter task number: ");
@@ -107,8 +112,11 @@ public class Main {
                     break;
                 
                 default :
+                System.out.println("Insert a valid option number please.");
                     break;
             }
+
+            Thread.sleep(1000);
             
         }
 
