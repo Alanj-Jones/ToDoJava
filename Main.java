@@ -2,7 +2,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
+    //Tareas a realizar:
+    // Mostrar Tareas
+    // Aniadir Tareas
+    // Borrar Tareas
+    // Marcar como completada
 
+    
     private static ArrayList<String> tasks = new ArrayList<>();
     private static Scanner in = new Scanner(System.in);
 
@@ -11,7 +17,9 @@ public class Main {
         System.out.print(   "Options:\n" +
                             "1 - Show tasks\n" +
                             "2 - Delete task\n" +
-                            "3 - Add new task\n");
+                            "3 - Add new task\n" +
+                            "4 - Mark as completed\n" +
+                            "0 - Exit\n" );
     }
 
     private static void showTasks() {
@@ -49,6 +57,17 @@ public class Main {
         return validateNumber(in.nextLine());
         
     }
+
+    private static void completeTask(String taskNumber) {
+        int validNumber = validateNumber(taskNumber);
+        if (tasks.get(validNumber).contains("(Completed)")) {
+            System.out.println("Task has already been marked as completed!");
+            return ;
+        }
+
+        String completed = tasks.get(validNumber) + " (Completed)";
+        tasks.set(validNumber, completed);
+    }
     
     public static void main(String[] args) {
         int temp_option = -1;
@@ -69,7 +88,11 @@ public class Main {
                     break;
                 
                 case 2:
-                System.out.print("Enter task number: ");
+                    if (tasks.isEmpty()) {
+                        System.out.println("There are no tasks to delete!");
+                        break;
+                    } 
+                    System.out.print("Enter task number: ");
                     deleteTask(validateNumber(in.nextLine()));
                     break;
                 
@@ -78,17 +101,19 @@ public class Main {
                     addTask(in.nextLine());
                     break;
                 
+                case 4:
+                    System.out.print("Enter task number: ");
+                    completeTask(in.nextLine());
+                    break;
+                
                 default :
                     break;
             }
             
         }
 
-
-
         in.close();
         
-
     }
 }
 
